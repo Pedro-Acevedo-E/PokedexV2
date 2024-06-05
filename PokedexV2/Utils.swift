@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 func buildQuery(offset: Int) -> String {
     let stringOffset = String(offset * 50)
@@ -33,4 +34,47 @@ func buildQuery(offset: Int) -> String {
           }
         }
     """
+}
+
+func getTypeColor(type: String?) -> Color {
+    switch type {
+    case "grass":
+        return Color(.grass)
+    case "fire":
+        return Color(.fire)
+    case "water":
+        return Color(.water)
+    case "bug":
+        return Color(.bug)
+    case "electric":
+        return Color(.electric)
+    case "rock":
+        return Color(.rock)
+    case "ground":
+        return Color(.ground)
+    case "dark":
+        return Color(.dark)
+    case "fighting":
+        return Color(.fighting)
+    case "steel":
+        return Color(.steel)
+    case "normal":
+        return Color(.normal)
+    case "ghost":
+        return Color(.ghost)
+    case "poison":
+        return Color(.poison)
+    case "dragon":
+        return Color(.dragon)
+    case "flying":
+        return Color(.flying)
+    case "psychic":
+        return Color(.psychic)
+    case "fairy":
+        return Color(.fairy)
+    case "ice":
+        return Color(.ice)
+    default:
+        return .white
+    }
 }
