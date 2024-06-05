@@ -9,7 +9,8 @@ import Foundation
 import SwiftUI
 
 struct PokedexData: Codable {
-    var data: Pokedex
+    var data: Pokedex?
+    var count: Int?
 }
 
 struct Pokedex: Codable {

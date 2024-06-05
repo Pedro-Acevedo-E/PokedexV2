@@ -8,4 +8,5 @@
 import Foundation
 
 let graphQLBaseURL = "https://beta.pokeapi.co/graphql/v1beta"
+let speciesBaseURL = "https://pokeapi.co/api/v2/pokemon-species/"
 

@@ -8,9 +8,10 @@
 import Foundation
 
 func buildQuery(offset: Int) -> String {
+    let stringOffset = String(offset * 50)
     return """
         query PokeAPIquery {
-          pokedexEntries: pokemon_v2_pokemonspecies(limit: 50, offset: \(String(offset)), distinct_on: id) {
+          pokedexEntries: pokemon_v2_pokemonspecies(limit: 50, offset: \(stringOffset), distinct_on: id) {
             id
             name
             pokemonForms: pokemon_v2_pokemons {

@@ -12,6 +12,7 @@ struct PokedexView: View {
     var columns: [GridItem] = [
         GridItem(.adaptive(minimum: 180))
     ]
+    @State private var page = 0
     
     var body: some View {
         VStack {
@@ -63,13 +64,41 @@ struct PokedexView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 25))
                     }
                 }
+                HStack {
+                    Button {
+                        if(page > 0) {
+                            page -= 1
+                        }
+                    } label: {
+                        Text("<")
+                    }
+                    Picker("Select Page", selection: $page) {
+                        ForEach(0...pokedex.pages, id: \.self) {
+                            Text($0 + 1, format: .number)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    Button {
+                        if (page < pokedex.pages) {
+                            page += 1
+                        }
+                    } label: {
+                        Text(">")
+                    }
+                }
                 Rectangle()
                     .foregroundColor(.black.opacity(0))
                     .containerRelativeFrame(.vertical, count: 15, span: 1, spacing: 0)
             }
         }
         .task {
-            await pokedex.loadData(page: 0)
+            await pokedex.loadData(page: page)
+            await pokedex.loadPokedexCount()
+        }
+        .onChange(of: page) {
+            Task.detached(priority: .background) {
+                await pokedex.loadData(page: page)
+            }
         }
     }
 }
