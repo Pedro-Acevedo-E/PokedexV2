@@ -9,12 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        ZStack {
-            PokedexBackgroundView()
-            PokedexView()
-            PokedexBordersView()
+        NavigationStack {
+            ZStack {
+                PokedexBackgroundView()
+                PokedexView()
+                PokedexBordersView()
+            }
+            .ignoresSafeArea()
         }
-        .ignoresSafeArea()
     }
 }
 

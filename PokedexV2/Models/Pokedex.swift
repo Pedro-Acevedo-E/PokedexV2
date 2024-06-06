@@ -26,7 +26,8 @@ struct PokedexEntry: Codable, Identifiable {
         getTypeColor(type: pokemonForms.first?.types.first?.pokemonType.name)
     }
     
-    var image: String { pokemonForms.first?.pokemonSprites.first?.sprites.officialArtwork?.frontDefault ?? ""}
+    var image: String { 
+        pokemonForms.first?.pokemonSprites.first?.sprites.officialArtwork?.frontDefault ?? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(String(id)).png"}
 }
 
 struct PokemonForm: Codable, Identifiable {

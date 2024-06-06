@@ -22,8 +22,11 @@ struct PokedexView: View {
                     .containerRelativeFrame(.vertical, count: 15, span: 1, spacing: 0)
                 LazyVGrid(columns: columns) {
                     ForEach(pokedex.entries) { i in
-                        PokedexCellView(entry: i)
-                        .clipShape(RoundedRectangle(cornerRadius: 25))
+                        NavigationLink(value: i.id) {
+                            PokedexCellView(entry: i)
+                                .clipShape(RoundedRectangle(cornerRadius: 25))
+                        }
+                        .foregroundStyle(.primary)
                     }
                 }
                 PageSelectorView(page: $page, pages: pokedex.pages)
@@ -35,6 +38,9 @@ struct PokedexView: View {
         .task {
             await pokedex.loadData(page: page)
             await pokedex.loadPokedexCount()
+        }
+        .navigationDestination(for: Int.self) { selection in
+            PokemonDetailView(pokemonId: selection)
         }
         .onChange(of: page) {
             Task.detached(priority: .background) {
