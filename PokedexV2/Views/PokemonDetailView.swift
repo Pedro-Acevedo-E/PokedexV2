@@ -9,9 +9,22 @@ import SwiftUI
 
 struct PokemonDetailView: View {
     let pokemonId: Int
+    @State private var pokemon = PokemonDetailViewModel()
     
     var body: some View {
-        Text("Details for: " + String(pokemonId))
+        VStack {
+            Text("Details for: " + String(pokemonId))
+            if let pkm = pokemon.pokemonDetail {
+                Text("Decoded details for: \(pkm.name)")
+            }
+            if let pkm = pokemon.pokemonSpecies {
+                Text("Decoded species details for: \(pkm.name)")
+            }
+        }
+        .task {
+            await pokemon.loadDetails(id: pokemonId)
+            await pokemon.loadSpeciesDetails(id: pokemonId)
+        }
     }
     
     init(pokemonId: Int) {
