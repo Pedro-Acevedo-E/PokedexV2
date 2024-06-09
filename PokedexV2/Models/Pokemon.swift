@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Pokemon: Codable {
+struct Pokemon: Codable, Identifiable {
     var id: Int
     var name: String
     var evolutionChain: NamedResource?
@@ -26,8 +26,17 @@ struct Pokemon: Codable {
     enum CodingKeys: String, CodingKey {
         case id
         case name
-        case evolutionChain = "evolution-chain"
+        case evolutionChain = "evolution_chain"
         case flavorTextEntries = "flavor_text_entries"
+        case genera
+        case habitat
+        case abilities
+        case cries
+        case height
+        case sprites
+        case stats
+        case types
+        case weight
     }
 }
 
@@ -109,5 +118,78 @@ struct PokemonStat: Codable {
 struct PokemonTypes: Codable {
     var slot: Int
     var type: NamedResource
+}
+
+struct EvolutionChain: Codable {
+    var chain: Chain
+    var id: Int
+}
+
+struct Chain: Codable, Identifiable {
+    var id = UUID()
+    var evolutionDetails: [EvolutionDetails]
+    var evolvesTo: [Chain]
+    var isBaby: Bool
+    var species: NamedResource
+    
+    var imageURL: URL? {
+        get {
+            if let url = species.url {
+                if let unwrappedLastPathComponent = URL(string: url)?.lastPathComponent {
+                    return URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(unwrappedLastPathComponent).png")
+                }
+            }
+            return nil
+        }
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case evolutionDetails = "evolution_details"
+        case evolvesTo = "evolves_to"
+        case isBaby = "is_baby"
+        case species
+    }
+}
+
+struct EvolutionDetails: Codable {
+    var gender: Int?
+    var heldItem: NamedResource?
+    var item: NamedResource?
+    var knownMove: NamedResource?
+    var knownMoveType: NamedResource?
+    var location: NamedResource?
+    var minAffection: Int?
+    var minBeauty: Int?
+    var minHappiness: Int?
+    var minLevel: Int?
+    var needsOverworldRain: Bool
+    var partySpecies: NamedResource?
+    var partyType: NamedResource?
+    var relativePhysicalStats: Int?
+    var timeOfDay: String
+    var tradeSpecies: NamedResource?
+    var trigger: NamedResource?
+    var turnUpsideDown: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case gender
+        case heldItem = "evolves_to"
+        case item
+        case knownMove = "known_move"
+        case knownMoveType = "known_move_type"
+        case location
+        case minAffection = "min_affection"
+        case minBeauty = "min_beauty"
+        case minHappiness = "min_happiness"
+        case minLevel = "min_level"
+        case needsOverworldRain = "needs_overworld_rain"
+        case partySpecies = "party_species"
+        case partyType = "party_type"
+        case relativePhysicalStats = "relative_physical_stats"
+        case timeOfDay = "time_of_day"
+        case tradeSpecies = "trade_species"
+        case trigger
+        case turnUpsideDown = "turn_upside_down"
+    }
 }
 

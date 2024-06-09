@@ -13,17 +13,37 @@ struct PokemonDetailView: View {
     
     var body: some View {
         VStack {
-            Text("Details for: " + String(pokemonId))
-            if let pkm = pokemon.pokemonDetail {
-                Text("Decoded details for: \(pkm.name)")
-            }
-            if let pkm = pokemon.pokemonSpecies {
-                Text("Decoded species details for: \(pkm.name)")
+            ScrollView {
+                if pokemon.loaded {
+                    Text("General pokemon information: ")
+                        .bold()
+                        .padding(.bottom)
+                    Text("Pokemon ID: " + pokemon.id)
+                    Text("Pokemon Name: " + pokemon.name)
+                    Text("Flavor text: " + pokemon.flavorText)
+                    Text("Species: " + pokemon.genus)
+                    Text("Habitat: " + pokemon.habitat)
+                    Text("Stage 1 evolution: ")
+                    ForEach(pokemon.evolutionStage1) { pkm in
+                        Text(pkm.species.name ?? "")
+                    }
+                    Text("Stage 2 evolution: ")
+                    ForEach(pokemon.evolutionStage2) { pkm in
+                        Text(pkm.species.name ?? "")
+                    }
+                    Text("Stage 3 evolution: ")
+                    ForEach(pokemon.evolutionStage3) { pkm in
+                        Text(pkm.species.name ?? "")
+                    }
+                } else {
+                    ProgressView()
+                }
             }
         }
         .task {
             await pokemon.loadDetails(id: pokemonId)
             await pokemon.loadSpeciesDetails(id: pokemonId)
+            await pokemon.loadEvolutionChain()
         }
     }
     
