@@ -35,6 +35,40 @@ struct PokemonDetailView: View {
                     ForEach(pokemon.evolutionStage3) { pkm in
                         Text(pkm.species.name ?? "")
                     }
+                    Text("Abilities: ")
+                    HStack {
+                        ForEach(pokemon.abilities, id: \.self) { ability in
+                            Text(ability)
+                        }
+                    }
+                    Text("Height: \(pokemon.height)")
+                    AsyncImage(url: URL(string: pokemon.image)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 90, height: 90)
+                        case .success(let image):
+                            image.resizable()
+                                .frame(width: 90, height: 90)
+                        case .failure:
+                            Image(systemName: "questionmark")
+                        @unknown default:
+                            Image(systemName: "questionmark")
+                        }
+                    }
+                    Text("Stats: ")
+                    ForEach(pokemon.stats) { stat in
+                        HStack {
+                            Text(stat.stat.name ?? "")
+                            Text(": " + String(stat.baseStat))
+                        }
+                    }
+                    Text("Types: ")
+                    ForEach(pokemon.types, id: \.self) { type in
+                        Text(type)
+                    }
+                    Text("Weight: \(pokemon.weight)")
+                    
                 } else {
                     ProgressView()
                 }

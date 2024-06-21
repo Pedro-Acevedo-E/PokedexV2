@@ -81,7 +81,54 @@ extension PokemonDetailView {
             return pokemonSpecies?.habitat?.name ?? "Unknown"
         }
         
-    
+        var abilities: [String] {
+            var items: [String] = []
+            if let unwrappedAbilities = pokemonDetail?.abilities {
+                for i in unwrappedAbilities {
+                    items.append(i.ability.name ?? "")
+                }
+            }
+            return items
+        }
+        
+        var height: String {
+            let myFloat = Float(pokemonDetail?.height ?? 0) / 10
+            let formatter = NumberFormatter()
+            formatter.minimumFractionDigits = 0
+            formatter.maximumFractionDigits = 2
+
+            let stringWithTwoDecimals = formatter.string(from: NSNumber(value: myFloat))!
+            return stringWithTwoDecimals + "m"
+        }
+        
+        var image: String {
+            pokemonDetail?.sprites?.other.officialArtwork?.frontDefault ?? "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/\(String(pokemonDetail?.id ?? 0)).png"
+        }
+        
+        var stats: [PokemonStat] {
+            return pokemonDetail?.stats ?? []
+        }
+        
+        var types: [String] {
+            var items: [String] = []
+            if let unwrappedTypes = pokemonDetail?.types {
+                for i in unwrappedTypes {
+                    items.append(i.type.name ?? "")
+                }
+            }
+            return items
+        }
+        
+        var weight: String {
+            let myFloat = Float(pokemonDetail?.weight ?? 0) / 10
+            let formatter = NumberFormatter()
+            formatter.minimumFractionDigits = 0
+            formatter.maximumFractionDigits = 2
+
+            let stringWithTwoDecimals = formatter.string(from: NSNumber(value: myFloat))!
+            return stringWithTwoDecimals + "kg"
+        }
+        
         func loadDetails(id: Int) async {
             do {
                 let response = try await URLSession.shared.data(from: URL(string: detailsBaseURL + String(id) + "/")!)

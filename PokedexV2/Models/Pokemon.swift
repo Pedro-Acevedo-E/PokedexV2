@@ -103,7 +103,8 @@ struct OtherSprites: Codable {
     }
 }
 
-struct PokemonStat: Codable {
+struct PokemonStat: Codable, Identifiable {
+    let id = UUID()
     var baseStat: Int
     var effort: Int
     var stat: NamedResource
@@ -152,7 +153,7 @@ struct Chain: Codable, Identifiable {
 }
 
 struct EvolutionDetails: Codable {
-    var gender: Int?
+    var gender: Int? //1 female 2 male
     var heldItem: NamedResource?
     var item: NamedResource?
     var knownMove: NamedResource?
@@ -166,7 +167,7 @@ struct EvolutionDetails: Codable {
     var partySpecies: NamedResource?
     var partyType: NamedResource?
     var relativePhysicalStats: Int?
-    var timeOfDay: String
+    var timeOfDay: String //nighr or day
     var tradeSpecies: NamedResource?
     var trigger: NamedResource?
     var turnUpsideDown: Bool
