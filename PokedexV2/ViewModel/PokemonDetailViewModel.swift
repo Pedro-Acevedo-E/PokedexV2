@@ -26,7 +26,7 @@ extension PokemonDetailView {
         }
         
         var id: String {
-            return ("# " + String(pokemonDetail?.id ?? 0))
+            return ("#" + String(pokemonDetail?.id ?? 0))
         }
         
         var flavorText: String {
