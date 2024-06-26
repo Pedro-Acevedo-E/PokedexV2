@@ -26,6 +26,7 @@ struct PageSelectorView: View {
                 }
             }
             .pickerStyle(.menu)
+            .accentColor(.black)
             Button {
                 if (page < pages) {
                     page += 1
@@ -34,6 +35,7 @@ struct PageSelectorView: View {
                 Text(">")
             }
         }
+        .foregroundColor(.black)
     }
 }
 

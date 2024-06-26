@@ -50,33 +50,69 @@ struct PokemonDetailView: View {
                             }
                         }
                         Divider()
-                        VStack(alignment: .leading) {
-                            Text(pokemon.genus)
-                                .font(.headline)
-                                .padding()
-                            Text(pokemon.flavorText)
-                                .padding()
+                        VStack() {
                             HStack {
-                                Text("Height: \(pokemon.height)")
-                                    .font(.headline)
+                                VStack(alignment: .leading) {
+                                    Text("Species")
+                                        .font(.headline)
+                                    Text(pokemon.genus)
+                                        .font(.title)
+                                }
                                 Spacer()
-                                Text("Weight: \(pokemon.weight)")
-                                    .font(.headline)
-                            }
-                            .font(.headline)
-                            .padding()
-                            HStack {
-                                Text("Abilities: ")
-                                    .font(.headline)
-                                ForEach(pokemon.abilities, id: \.self) { ability in
-                                    Text(ability)
+                                VStack(alignment: .leading) {
+                                    Text("Habitat")
+                                        .font(.headline)
+                                    Text(pokemon.habitat)
+                                        .font(.title)
                                 }
                             }
+                            .padding(.horizontal)
+                            
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("Description")
+                                        .font(.headline)
+                                    Text(pokemon.flavorText)
+                                        .font(.title)
+                                }
+                                Spacer()
+                            }
                             .padding()
-                            Text("Can be found in: " + pokemon.habitat)
-                                .font(.headline)
-                                .padding()
+                            
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("Height")
+                                        .font(.headline)
+                                    Text(pokemon.height)
+                                        .font(.title)
+                                }
+                                Spacer()
+                                VStack(alignment: .leading) {
+                                    Text("Weight")
+                                        .font(.headline)
+                                    Text(pokemon.weight)
+                                        .font(.title)
+                                }
+                            }
+                            .padding(.horizontal)
+                            
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("Abilities")
+                                        .font(.headline)
+                                    HStack {
+                                        ForEach(pokemon.abilities, id: \.self) { ability in
+                                            Text(ability)
+                                                .font(.title)
+                                            Spacer()
+                                        }
+                                    }
+                                }
+                                Spacer()
+                            }
+                            .padding()
                         }
+                        .padding()
                         
                         Divider()
                         
@@ -90,7 +126,7 @@ struct PokemonDetailView: View {
                         
                         Divider()
                         
-                        Text("Stats")
+                        Text("Base Stats")
                             .font(.headline)
                             .padding()
                         
@@ -99,7 +135,9 @@ struct PokemonDetailView: View {
                                 Text((stat.stat.name ?? "") + ": " + String(stat.baseStat))
                                     .font(.headline)
                                 ColoredProgressBar(value: stat.baseStat)
+                                    .padding(.bottom)
                             }
+                            .padding(.horizontal)
                         }
                         
                         Rectangle()
@@ -111,7 +149,7 @@ struct PokemonDetailView: View {
                     }
                 }
             }
-            .navigationTitle("\(pokemon.id) \(pokemon.name)")
+            .navigationTitle("\(pokemon.name) \(pokemon.id)")
             .navigationBarTitleDisplayMode(.large)
             .toolbarBackground(getTypeColor(type: pokemon.types.first ?? ""), for: .navigationBar, .tabBar)
         }

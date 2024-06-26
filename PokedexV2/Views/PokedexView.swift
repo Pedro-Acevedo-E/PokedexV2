@@ -15,38 +15,47 @@ struct PokedexView: View {
     @State private var page = 0
     
     var body: some View {
-        VStack {
-            ScrollView {
-                Rectangle()
-                    .foregroundColor(.black.opacity(0))
-                    .containerRelativeFrame(.vertical, count: 15, span: 1, spacing: 0)
-                LazyVGrid(columns: columns) {
-                    ForEach(pokedex.entries) { i in
-                        NavigationLink(value: i.id) {
-                            PokedexCellView(entry: i)
-                                .clipShape(RoundedRectangle(cornerRadius: 25))
+        ZStack {
+            PokedexBackgroundView()
+            VStack {
+                ScrollView {
+                    Rectangle()
+                        .foregroundColor(.black.opacity(0))
+                        .containerRelativeFrame(.vertical, count: 15, span: 1, spacing: 0)
+                    LazyVGrid(columns: columns) {
+                        ForEach(pokedex.entries) { i in
+                            NavigationLink(value: i.id) {
+                                PokedexCellView(entry: i)
+                                    .clipShape(RoundedRectangle(cornerRadius: 25))
+                            }
+                            .foregroundStyle(.primary)
                         }
-                        .foregroundStyle(.primary)
                     }
+                    
+                    Rectangle()
+                        .foregroundColor(.black.opacity(0))
+                        .containerRelativeFrame(.vertical, count: 15, span: 1, spacing: 0)
                 }
-                PageSelectorView(page: $page, pages: pokedex.pages)
-                Rectangle()
-                    .foregroundColor(.black.opacity(0))
-                    .containerRelativeFrame(.vertical, count: 15, span: 1, spacing: 0)
             }
-        }
-        .task {
-            await pokedex.loadData(page: page)
-            await pokedex.loadPokedexCount()
-        }
-        .navigationDestination(for: Int.self) { selection in
-            PokemonDetailView(pokemonId: selection)
-        }
-        .onChange(of: page) {
-            Task.detached(priority: .background) {
+            .task {
                 await pokedex.loadData(page: page)
+                await pokedex.loadPokedexCount()
             }
-        }
+            .navigationDestination(for: Int.self) { selection in
+                PokemonDetailView(pokemonId: selection)
+            }
+            .onChange(of: page) {
+                Task.detached(priority: .background) {
+                    await pokedex.loadData(page: page)
+                }
+            }
+            PokedexBordersView()
+            VStack {
+                Spacer()
+                PageSelectorView(page: $page, pages: pokedex.pages)
+                    .padding(.bottom, 14)
+            }
+        }.ignoresSafeArea()
     }
 }
 

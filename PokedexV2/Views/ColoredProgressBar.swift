@@ -19,7 +19,7 @@ struct ColoredProgressBar: View {
             Capsule()
                 .fill(Color.blue)
                 .frame(maxHeight: 10)
-                .containerRelativeFrame(.horizontal, count: 255, span: value, spacing: 0)
+                .containerRelativeFrame(.horizontal, count: 280, span: value, spacing: 0)
         }
     }
 }

@@ -32,7 +32,7 @@ extension PokemonDetailView {
         var flavorText: String {
             if let pokemon = pokemonSpecies, let flavorTextEntries = pokemon.flavorTextEntries {
                 for entry in flavorTextEntries where entry.language.name == "en" {
-                    return entry.flavorText.replacingOccurrences(of: "\n", with: " ")
+                    return entry.flavorText.replacingOccurrences(of: "\\n|\\f", with: " ", options: .regularExpression)
                 }
             }
             return ""

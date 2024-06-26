@@ -6,16 +6,12 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct ContentView: View {
     var body: some View {
         NavigationStack {
-            ZStack {
-                PokedexBackgroundView()
-                PokedexView()
-                PokedexBordersView()
-            }
-            .ignoresSafeArea()
+            PokedexView()
         }
     }
 }
